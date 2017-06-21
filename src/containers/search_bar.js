@@ -2,10 +2,12 @@
  * Created by consultadd on 20/6/17.
  */
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import {bindActionCreators} from "redux";
+import {fetchWeather} from "../actions/index";
 
 
-
-export default class SearcBar extends Component{
+class SearchBar extends Component{
 
     constructor(props){
         super(props);
@@ -25,6 +27,11 @@ export default class SearcBar extends Component{
 
     onSubmitForm(event){
         event.preventDefault();
+
+        this.props.fetchWeather(this.state.term);
+        this.setState({
+            term:''
+        })
     }
 
     render(){
@@ -45,3 +52,9 @@ export default class SearcBar extends Component{
         );
     }
 }
+
+const mapDispatchToProps = (dispatch)=>{
+    return bindActionCreators({fetchWeather}, dispatch)
+}
+
+export default connect(null,mapDispatchToProps)(SearchBar)

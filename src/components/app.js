@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
-import SearcBar from "../containers/search_bar";
+import SearchBar from "../containers/search_bar";
+import WeatherList from '../containers/weatherlist'
 
 export default class App extends Component {
   render() {
     return (
       <div>
-        <SearcBar/>
+        <SearchBar/>
+        <WeatherList/>
       </div>
     );
   }
