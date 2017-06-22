@@ -4,21 +4,28 @@
 import React,{Component} from 'react'
 import {connect} from 'react-redux';
 import Chart from "../components/chart";
+import _ from 'lodash'
+import GoogleMap from "../components/google_map";
+
 
 
 class WeatherList extends Component{
 
     renderWeather(cityData){
-        const temps = cityData.list.map(weather=>weather.main.temp);
+        const temps = _.map(cityData.list.map(weather=>weather.main.temp),(temp)=>temp-273.15);
+        const pressures = cityData.list.map(weather=>weather.main.pressure);
+        const humidities = cityData.list.map(weather=>weather.main.humidity);
+        const {lat,lon} = cityData.city.coord;
         console.log(temps);
         return (
             <tr key={cityData.city.id}>
                 <td>
-                    {cityData.city.name}
+                    <GoogleMap lat={lat} lon={lon}/>
+                    <h3>{cityData.city.name}</h3>
                 </td>
-                <td>
-                   <Chart data={temps} color='red'/>
-                </td>
+                <td><Chart data={temps} color='red' unit="C"/></td>
+                <td><Chart data={pressures} color='green' unit="hpa"/></td>
+                <td><Chart data={humidities} color='orange' unit="%"/></td>
             </tr>
         )
     }
@@ -29,9 +36,9 @@ class WeatherList extends Component{
                 <thead>
                 <tr>
                     <th>City</th>
-                    <th>Temprature</th>
-                    <th>Presure</th>
-                    <th>Humidity</th>
+                    <th>Temprature (C)</th>
+                    <th>Presure (hpa)</th>
+                    <th>Humidity (%)</th>
                 </tr>
                 </thead>
                 <tbody>
